@@ -93,25 +93,29 @@ def list_hardware() -> str:
 CPU & MEMORY (serverless sandbox, per-second billing):
 - cpu: any value, e.g. 1.0, 2.0, 4.0, 8.0, 16.0+ (vCPU cores)
 - memory_mb: any value, e.g. 2048, 8192, 65536 (MB)
-- Cost: fractions of a cent per typical run (~$0.10-0.15 per vCPU-hour).
+- Cost: fractions of a cent per typical run (~$0.14 per vCPU-hour).
   Within Modal's monthly credit (~$30/mo), light-medium use is effectively free.
 
-GPU OPTIONS (per-second billing, approx per hour):
+GPU OPTIONS (per-second billing, approx per hour, cheapest first):
 - T4 (16GB): ~$0.59/hr — entry GPU, light inference
 - L4 (24GB): ~$0.80/hr — efficient inference, small models
 - A10G (24GB): ~$1.10/hr — general-purpose training/inference
 - L40S (48GB): ~$1.95/hr — heavier training, more VRAM
 - A100 40GB: ~$2.10/hr — serious training
 - A100 80GB: ~$2.50/hr — large models
-- RTX PRO 6000 (48GB): ~$3.03/hr
-- H100 80GB: ~$3.95/hr — flagship, large LLM training/finetuning
+- RTX PRO 6000 (48GB): ~$3.03/hr — pro workstation class
+- H100 80GB: ~$3.95/hr — flagship Hopper, large LLM training
+- H200 141GB: ~$4.54/hr — Hopper successor, huge VRAM
+- B200 192GB: ~$6.25/hr — Blackwell datacenter GPU
+- B300 288GB: ~$7.10/hr — Blackwell Ultra, top tier
 
 GUIDANCE:
 - Default to CPU-only (gpu="") unless the task is ML inference/training,
   heavy numerics, or image/video processing.
 - Small models / inference -> T4 or L4.
 - Training / finetuning -> A10G or L40S.
-- Large models (7B+ params, big LoRA bases) -> A100 or H100.
+- Large models (7B+ params, big LoRA bases) -> A100 80GB or H100.
+- Very large models / frontier-scale jobs -> H200 / B200 / B300.
 - GPU is the only expensive option — never request it casually."""
 
 

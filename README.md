@@ -152,10 +152,10 @@ Sandboxes have network access and come with Python + `requests`; scripts can
 ## The tool: `list_hardware`
 
 `list_hardware()` has no arguments and returns the static hardware catalog — CPU/RAM
-tiers, GPU types (T4/L4/A10G/L40S/A100/H100), approximate hourly prices, and guidance
-on when to use each. Call it first when you need to choose `cpu` / `memory_mb` / `gpu`
-values deliberately instead of guessing. Prices are approximate; verify at
-modal.com/pricing.
+tiers, GPU types (T4 → B300, including Hopper and Blackwell), approximate hourly prices,
+and guidance on when to use each. Call it first when you need to choose `cpu` /
+`memory_mb` / `gpu` values deliberately instead of guessing. Prices are approximate;
+verify at modal.com/pricing.
 
 ## Tuning timeouts (Open WebUI gotcha)
 
