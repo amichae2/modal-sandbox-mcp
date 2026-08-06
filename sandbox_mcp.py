@@ -81,6 +81,40 @@ def run_script(
             pass  # sandbox already exited
 
 
+@mcp.tool()
+def list_hardware() -> str:
+    """List available Modal hardware options: CPU/RAM tiers and GPU types with approximate pricing and guidance.
+
+    Call this BEFORE run_script whenever you need to choose cpu, memory_mb, or gpu
+    values. Returns a static catalog (prices approximate — verify at modal.com/pricing).
+    """
+    return """MODAL HARDWARE CATALOG (approximate prices; verify at https://modal.com/pricing)
+
+CPU & MEMORY (serverless sandbox, per-second billing):
+- cpu: any value, e.g. 1.0, 2.0, 4.0, 8.0, 16.0+ (vCPU cores)
+- memory_mb: any value, e.g. 2048, 8192, 65536 (MB)
+- Cost: fractions of a cent per typical run (~$0.10-0.15 per vCPU-hour).
+  Within Modal's monthly credit (~$30/mo), light-medium use is effectively free.
+
+GPU OPTIONS (per-second billing, approx per hour):
+- T4 (16GB): ~$0.59/hr — entry GPU, light inference
+- L4 (24GB): ~$0.80/hr — efficient inference, small models
+- A10G (24GB): ~$1.10/hr — general-purpose training/inference
+- L40S (48GB): ~$1.95/hr — heavier training, more VRAM
+- A100 40GB: ~$2.10/hr — serious training
+- A100 80GB: ~$2.50/hr — large models
+- RTX PRO 6000 (48GB): ~$3.03/hr
+- H100 80GB: ~$3.95/hr — flagship, large LLM training/finetuning
+
+GUIDANCE:
+- Default to CPU-only (gpu="") unless the task is ML inference/training,
+  heavy numerics, or image/video processing.
+- Small models / inference -> T4 or L4.
+- Training / finetuning -> A10G or L40S.
+- Large models (7B+ params, big LoRA bases) -> A100 or H100.
+- GPU is the only expensive option — never request it casually."""
+
+
 # --- Serve over HTTP -----------------------------------------------------
 
 @app.function(image=server_image, allow_concurrent_inputs=100)
