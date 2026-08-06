@@ -1,0 +1,22 @@
+[Unit]
+Description=Modal Sandbox MCP via MCPO
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/home/alex/.local/bin/mcpo --host 172.17.0.1 --port 8021 --name "sandbox-mcp" --description "Run Python scripts on Modal hardware (CPU/RAM/GPU) via Modal Sandboxes." -- /opt/sandbox-mcp/venv/bin/python /opt/sandbox-mcp/sandbox_mcp_local.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
+
+# Install (as the user that owns the venv / modal token):
+#   systemctl --user enable --now sandbox-mcpo
+#
+# Notes:
+#   - The child process runs as the unit's user, so your Modal token must be
+#     readable from that user's home (~/.modal.toml).
+#   - Bind 172.17.0.1 (Docker bridge gateway) so only the open-webui container
+#     can reach it; use 127.0.0.1 for host-only access.
